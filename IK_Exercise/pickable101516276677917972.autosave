@@ -1,0 +1,28 @@
+public class Pickable{
+     Vec2 pos;
+     float w;
+     float h;
+     boolean picked;
+     Arm picker;
+     public Pickable(Vec2 p, float w1, float h1){
+         pos = new Vec2(p.x,p.y);
+         w = w1;
+         h = h1;
+     }
+     boolean pointInBox(Vec2 pointPos){
+         if(pos.x < pointPos.x && pointPos.x < pos.x+w &&
+            pos.y < pointPos.y && pointPos.y < pos.y + h){
+               return true;
+         }
+         return false;
+    }
+     public void update(){
+         if(picked){
+                Vec2 boxToRoot = picker.root.minus(pos);
+                Vec2 boxToFinger = picker.finger.minus(pos);
+                pos = boxToRoot.length() < boxToFinger.length() ? boxToRoot : boxToFinger;
+               
+         }
+        rect(pos.x,pos.y,w,h);
+     }
+}

@@ -35,6 +35,7 @@ public class Arm{
 
     Vec2 target;
     boolean targetSet;
+    Pickable box;
     public Arm(Vec2 r){
         root = r;
         upper_arm_length = 100;
@@ -257,9 +258,13 @@ public class Arm{
         rect(0, -finger_width/2, finger_length, finger_width);
         popMatrix();
     }
+    public void setBox(Pickable b){
+        box = b;
+    }
     
     public void update(float dt){
         if(carrying == false){
+            println(box.pos.x);
             Vec2 rootToBox = box.pos.minus(root);
             if(box.pointInBox(finger_tip) == true){
                 carrying = true;

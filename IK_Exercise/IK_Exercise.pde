@@ -35,26 +35,42 @@ CHALLENGE:
 2. Create a more full skeleton. How do you handle the torso having two different arms?
 
 */
-Arm left = new Arm(new Vec2(0,0));
-Arm right = new Arm(new Vec2(640,0));
+// Arm left = new Arm(new Vec2(600,0));
+// Arm right = new Arm(new Vec2(640,0));
+Human skeleton = new Human(new Vec2(150,200));
+
 Pickable box = new Pickable(new Vec2(320,240), 50,50);
+// Pickable box1 = new Pickable(new Vec2(420,340), 50,50);
 void setup(){
-  size(640,480);
+  size(640,640);
   surface.setTitle("Inverse Kinematics [CSCI 5611 Example]");
-  left.picked = box;
+//   left.picked = box;
+
 }
 
 void draw(){
+
     background(250,250,250);
     
-    left.update(1);
+//     left.update(1);
     box.update();
+//     box1.update();
+//     right.update(1);
+    skeleton.drawHuman();
 }
 
 void mousePressed(){
     if(mouseButton == LEFT){
-        left.moveTo(new Vec2(mouseX, mouseY));
-    }
+        // skeleton.moveTo(new Vec2(mouseX, mouseY));
+
+        // right.moveTo(new Vec2(mouseX, mouseY));
+        }
+//     }else if(mouseButton == RIGHT){
+//         skeleton.moveTo(new Vec2(mouseX, mouseY));
+//     }
+}
+void keyPressed(){
+
 }
 float cross(Vec2 a, Vec2 b){
   return a.x*b.y - a.y*b.x;

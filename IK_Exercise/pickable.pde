@@ -29,6 +29,6 @@ public class Pickable{
                 }
                
          }
-        rect(pos.x,pos.y,w,h);
+        rect(pos.x-10,pos.y-10,w,h);
      }
 }

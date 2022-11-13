@@ -39,7 +39,7 @@ CHALLENGE:
 // Arm right = new Arm(new Vec2(640,0));
 Human skeleton = new Human(new Vec2(150,200));
 
-Pickable box = new Pickable(new Vec2(320,240), 50,50);
+Pickable box = new Pickable(new Vec2(550,240), 50,50);
 // Pickable box1 = new Pickable(new Vec2(420,340), 50,50);
 void setup(){
   size(640,640);
@@ -70,7 +70,13 @@ void mousePressed(){
 //     }
 }
 void keyPressed(){
-
+        if(key=='d'){
+                skeleton.setPos(new Vec2(skeleton.startPos.x+10,skeleton.startPos.y));
+                // draw();
+        }else if(key=='a'){
+                skeleton.setPos(new Vec2(skeleton.startPos.x-10,skeleton.startPos.y));
+                // draw();
+        }
 }
 float cross(Vec2 a, Vec2 b){
   return a.x*b.y - a.y*b.x;

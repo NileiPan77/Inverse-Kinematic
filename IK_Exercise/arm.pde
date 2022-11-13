@@ -214,17 +214,17 @@ public class Arm{
         else
             upper_arm_angle -= angleDiff * dt;
         /*TODO: Shoulder joint limits here*/
-        // if(upper_arm_angle > 1.5708){
-        //     upper_arm_angle = 1.5708; 
-        // }
-        // if(upper_arm_angle < 0){
-        //     upper_arm_angle = 0; 
-        // }
+        if(upper_arm_angle > 1.5708){
+            upper_arm_angle = 1.5708; 
+        }
+        if(upper_arm_angle < 0){
+            upper_arm_angle = 0; 
+        }
         fk(); //Update link positions with fk (e.g. end effector changed)
-        //float rtod = 180.0/(float)Math.PI;
+        float rtod = 180.0/(float)Math.PI;
         
-        //println(angleDiff);
-        //println("Angle 0:",upper_arm_angle * rtod,"Angle 1:",lower_arm_angle * rtod,"Angle 2:",palm_angle * rtod, "Angle 3:",finger_angle * rtod);
+        println(angleDiff);
+        println("Angle 0:",upper_arm_angle * rtod,"Angle 1:",lower_arm_angle * rtod,"Angle 2:",palm_angle * rtod, "Angle 3:",finger_angle * rtod);
     }
     
     public void moveTo(Vec2 goal){

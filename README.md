@@ -4,16 +4,16 @@ Name: Nilei Pan
 
 x500: pan00128
 
-Name:
+Name:ZiRui Chen
 
-x500:
+x500: Chen6713
 
 ## Features
 
 #### Multi-arm IK
 
 <img src=".\multiarm.gif" alt="multiarm" style="zoom:50%;" />
-
+<img src=".\wheelChairMan.gif" alt="wheelChair" style="zoom:50%;" />
 #### Joint Limit
 
 Shown below,  First one is when joint limit applied. Second one is when there is no joint limit in effect,

@@ -74,7 +74,16 @@ public class Arm{
         finger_joint = new Vec2(cos(upper_arm_angle+lower_arm_angle+palm_angle)*palm_length,sin(upper_arm_angle+lower_arm_angle+palm_angle)*palm_length).plus(wrist);
         finger_tip = new Vec2(cos(upper_arm_angle+lower_arm_angle+palm_angle+finger_angle)*palm_length,sin(upper_arm_angle+lower_arm_angle+palm_angle+finger_angle)*palm_length).plus(finger_joint);
     }
-    
+    public void reroot_fabrik(){
+        rerooted = !rerooted;
+        Vec2 temp = new Vec2(root.x,root.y);
+        root = finger_tip;
+        finger_tip = root;
+
+        temp = new Vec2(elbow.x,elbow.y);
+        elbow = finger_joint;
+        finger_joint = temp;
+    }
     public void reroot(){
         rerooted = !rerooted;
         float old_finger = finger_angle;
@@ -234,7 +243,7 @@ public class Arm{
             Vec2 tipTojoint = finger_joint.minus(finger_tip);
             tipTojoint.setToLength(finger_length);
             finger_joint = finger_tip.plus(tipTojoint);
-
+            
             Vec2 jointTowrist = wrist.minus(finger_joint);
             jointTowrist.setToLength(palm_length);
             wrist = finger_joint.plus(jointTowrist);
@@ -247,7 +256,17 @@ public class Arm{
             Vec2 rootToElbow = elbow.minus(root);
             rootToElbow.setToLength(upper_arm_length);
             elbow = root.plus(rootToElbow);
-
+            
+            // joint limit
+            float angShoulder = dot(rootToElbow.normalized(), new Vec2(1,0));
+            if(angShoulder > 1.5708){
+               float r = angShoulder - 1.5708;
+               float sin = (float)Math.sin(r);
+               float cos = (float)Math.cos(r);
+               rootToElbow.x = cos*rootToElbow.x - sin*rootToElbow.y;
+               rootToElbow.y = sin*rootToElbow.x + cos*rootToElbow.y;
+               elbow = root.plus(rootToElbow);
+            }
             Vec2 elbowToWrist = wrist.minus(elbow);
             elbowToWrist.setToLength(lower_arm_length);
             wrist = elbow.plus(elbowToWrist);

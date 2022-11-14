@@ -6,24 +6,18 @@ public class Arm{
     float upper_arm_length; 
     float upper_arm_width;
     float upper_arm_angle; //Shoulder joint
-    float upper_arm_limit_ceil;
-    float upper_arm_limit_floor;
     Vec2 elbow;
 
     //Lower Arm
     float lower_arm_length;
     float lower_arm_width;
     float lower_arm_angle; //Elbow joint
-    float lower_arm_limit_ceil;
-    float lower_arm_limit_floor;
     Vec2 wrist;
 
     //Hand
     float palm_length;
     float palm_width;
     float palm_angle; //Wrist joint
-    float palm_limit_ceil;
-    float palm_limit_floor;
     Vec2 finger_joint;
 
     //finger
@@ -41,23 +35,23 @@ public class Arm{
 
     Vec2 target;
     boolean targetSet;
-    public Arm(Vec2 r, float mult, float ang){
+    public Arm(Vec2 r){
         root = r;
         upper_arm_length = 100;
         upper_arm_width = 20;
-        upper_arm_angle = ang * mult;
+        upper_arm_angle = 0.3;
 
         lower_arm_length = 80;
         lower_arm_width = 20;
-        lower_arm_angle = ang * mult;
+        lower_arm_angle = 0.3;
 
         palm_length = 50;
         palm_width = 20;
-        palm_angle = ang * mult;
+        palm_angle = 0.3;
 
         finger_length = 40;
         finger_width = 10;
-        finger_angle = ang * mult;
+        finger_angle = 0.3;
         
         max_reach = upper_arm_length + lower_arm_length + palm_length + finger_length;
         
@@ -166,11 +160,11 @@ public class Arm{
             palm_angle -= angleDiff * dt;
             
         // /*TODO: Wrist joint limits here*/
-         if(palm_angle > palm_limit_ceil){
-             palm_angle = palm_limit_ceil; 
-         }else if(palm_angle < palm_limit_floor){
-             palm_angle = palm_limit_floor;
-         }
+        // if(palm_angle > 1.5708){
+        //     palm_angle = 1.5708; 
+        // }else if(palm_angle < -1.5708){
+        //     palm_angle = -1.5708;
+        // }
         fk(); //Update link positions with fk (e.g. end effector changed)
         
         
@@ -214,12 +208,12 @@ public class Arm{
         else
             upper_arm_angle -= angleDiff * dt;
         /*TODO: Shoulder joint limits here*/
-         if(upper_arm_angle > upper_arm_limit_ceil){
-             upper_arm_angle = upper_arm_limit_ceil; 
-         }
-         if(upper_arm_angle < upper_arm_limit_floor){
-             upper_arm_angle = upper_arm_limit_floor; 
-         }
+        // if(upper_arm_angle > 1.5708){
+        //     upper_arm_angle = 1.5708; 
+        // }
+        // if(upper_arm_angle < 0){
+        //     upper_arm_angle = 0; 
+        // }
         fk(); //Update link positions with fk (e.g. end effector changed)
         //float rtod = 180.0/(float)Math.PI;
         
@@ -228,39 +222,11 @@ public class Arm{
     }
     
     public void fabrik(float dt, Vec2 goal){
-        int iteration = 5;
+        int iteration = 10;
         while(iteration > 0){
-            finger_tip = goal;
-            Vec2 tipTojoint = finger_joint.minus(finger_tip);
-            tipTojoint.setToLength(finger_length);
-            finger_joint = finger_tip.plus(tipTojoint);
-
-            Vec2 jointTowrist = wrist.minus(finger_joint);
-            jointTowrist.setToLength(palm_length);
-            wrist = finger_joint.plus(jointTowrist);
-
-            Vec2 wristToelbow = elbow.minus(wrist);
-            wristToelbow.setToLength(lower_arm_length);
-            elbow = wrist.plus(wristToelbow);
-
-            // forward kinematic
-            Vec2 rootToElbow = elbow.minus(root);
-            rootToElbow.setToLength(upper_arm_length);
-            elbow = root.plus(rootToElbow);
-
-            Vec2 elbowToWrist = wrist.minus(elbow);
-            elbowToWrist.setToLength(lower_arm_length);
-            wrist = elbow.plus(elbowToWrist);
-
-            Vec2 WristTojoint = finger_joint.minus(wrist);
-            WristTojoint.setToLength(palm_length);
-            finger_joint = wrist.plus(WristTojoint);
-
-            Vec2 jointToTip = finger_tip.minus(finger_joint);
-            jointToTip.setToLength(finger_length);
-            finger_tip = finger_joint.plus(jointToTip);
-
-            iteration--;
+              finger_tip = goal;
+              Vec2 tipToWrist = finger_tip.minus
+          
         }
     }
     
@@ -295,57 +261,7 @@ public class Arm{
         rect(0, -finger_width/2, finger_length, finger_width);
         popMatrix();
     }
-
-    public void drawFabrikArm(){
-        fill(234,176,152);
-        pushMatrix();
-        translate(root.x,root.y);
-        if(cross(new Vec2(1,0),elbow.minus(root).normalized()) < 0){
-            rotate(-acos(dot(new Vec2(1,0),elbow.minus(root).normalized())));
-        }else{
-            rotate(acos(dot(new Vec2(1,0),elbow.minus(root).normalized())));
-        }
-        //rotate(upper_arm_angle);
-        rect(0, -upper_arm_width/2, upper_arm_length, upper_arm_width);
-        popMatrix();
-        
-        pushMatrix();
-        translate(elbow.x,elbow.y);
-        if(cross(new Vec2(1,0),wrist.minus(elbow).normalized()) < 0){
-            rotate(-acos(dot(new Vec2(1,0),wrist.minus(elbow).normalized())));
-        }else{
-            rotate(acos(dot(new Vec2(1,0),wrist.minus(elbow).normalized())));
-        }
-        //rotate(upper_arm_angle+lower_arm_angle);
-        rect(0, -lower_arm_width/2, lower_arm_length, lower_arm_width);
-        popMatrix();
-        
-        pushMatrix();
-        translate(wrist.x,wrist.y);
-        if(cross(new Vec2(1,0),finger_joint.minus(wrist).normalized()) < 0){
-            rotate(-acos(dot(new Vec2(1,0),finger_joint.minus(wrist).normalized())));
-        }else{
-            rotate(acos(dot(new Vec2(1,0),finger_joint.minus(wrist).normalized())));
-        }
-        //rotate(upper_arm_angle+lower_arm_angle+palm_angle);
-        rect(0, -palm_width/2, palm_length, palm_width);
-        popMatrix();
-
-        pushMatrix();
-        translate(finger_joint.x,finger_joint.y);
-        if(cross(new Vec2(1,0),finger_tip.minus(finger_joint).normalized()) < 0){
-            rotate(-acos(dot(new Vec2(1,0),finger_tip.minus(finger_joint).normalized())));
-        }else{
-            rotate(acos(dot(new Vec2(1,0),finger_tip.minus(finger_joint).normalized())));
-        }
-        //rotate(upper_arm_angle+lower_arm_angle+palm_angle+finger_angle);
-        rect(0, -finger_width/2, finger_length, finger_width);
-        popMatrix();
-    }
-    public void updateNoreroot(float dt, Vec2 tar){
-        fk();
-        solveCCD(dt,tar);
-    }
+    
     public void update(float dt){
         if(carrying == false){
             Vec2 rootToBox = box.pos.minus(root);
@@ -359,11 +275,9 @@ public class Arm{
             else if(rootToBox.length() < max_reach){
                 fk();
                 solveCCD(dt,box.pos);
-                //fabrik(dt,box.pos);
             }else{
                 fk();
                 solveCCD(dt,box.pos);
-                //fabrik(dt,box.pos);
                 
                 Vec2 rootToTip = finger_tip.minus(root).normalized();
                 if(dot(rootToBox.normalized(),rootToTip) > 0.95){
@@ -383,16 +297,13 @@ public class Arm{
                     reroot();
                     fk();
                     solveCCD(dt,target);
-                    //fabrik(dt,box.pos);
                 }else{
                     fk();
-                    //fabrik(dt,box.pos);
                     solveCCD(dt,target);
                 }
                 
             }else{
                 fk();
-                //fabrik(dt,box.pos);
                 solveCCD(dt,target);
                 
                 Vec2 rootToTip = finger_tip.minus(root).normalized();
@@ -404,6 +315,5 @@ public class Arm{
             //reroot();
         }
         drawArm();
-        //drawFabrikArm();
     }
 }

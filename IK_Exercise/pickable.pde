@@ -29,6 +29,7 @@ public class Pickable{
                 }
                
          }
-        rect(pos.x,pos.y,w,h);
+        image(chest,pos.x-20, pos.y-20,70,70);
+        //rect(pos.x,pos.y,w,h);
      }
 }

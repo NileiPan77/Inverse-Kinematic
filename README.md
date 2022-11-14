@@ -45,3 +45,6 @@ Fabrik implemented for part2, they behave mostly identical but with huge impleme
 <img src=".\art.PNG" alt="art" style="zoom:50%;" />
 
 A heart by multi-arm
+
+### Tools and Library used:
+No tools and libraies are used besides what's provided to us.

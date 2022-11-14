@@ -4,16 +4,16 @@ Name: Nilei Pan
 
 x500: pan00128
 
-Name:
+Name:ZiRui Chen
 
-x500:
+x500: Chen6713
 
 ## Features
 
 #### Multi-arm IK
 
 <img src=".\multiarm.gif" alt="multiarm" style="zoom:50%;" />
-
+<img src=".\wheelChairMan.gif" alt="wheelChair" style="zoom:100%;" />
 #### Joint Limit
 
 Shown below,  First one is when joint limit applied. Second one is when there is no joint limit in effect,
@@ -45,3 +45,6 @@ Fabrik implemented for part2, they behave mostly identical but with huge impleme
 <img src=".\art.PNG" alt="art" style="zoom:50%;" />
 
 A heart by multi-arm
+
+### Tools and Library used:
+No tools and libraies are used besides what's provided to us.

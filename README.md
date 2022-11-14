@@ -13,7 +13,7 @@ x500: Chen6713
 #### Multi-arm IK
 
 <img src=".\multiarm.gif" alt="multiarm" style="zoom:50%;" />
-<img src=".\wheelChairMan.gif" alt="wheelChair" style="zoom:50%;" />
+<img src=".\wheelChairMan.gif" alt="wheelChair" style="zoom:100%;" />
 #### Joint Limit
 
 Shown below,  First one is when joint limit applied. Second one is when there is no joint limit in effect,
